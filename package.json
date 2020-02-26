@@ -1,0 +1,23 @@
+{
+  "name": "status-zero",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "author": "Luke Geneva",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "moment": "^2.24.0",
+    "puppeteer": "^2.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-jest": "^23.8.0",
+    "jest": "^25.1.0",
+    "prettier": "^1.19.1"
+  }
+}
