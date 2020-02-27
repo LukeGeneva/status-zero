@@ -11,7 +11,7 @@ const configDoc = fs.readFileSync(configPath);
 const config = jsyaml.safeLoad(configDoc);
 
 const previousWorkday = getPreviousWorkday(new Date());
-fetchAllGitLogs({ day: previousWorkday, author: config.gitAuthor }).then(postLogsToStatusHero);
+fetchAllGitLogs({ day: previousWorkday, author: config.gitAuthor, directories: config.gitDirectories }).then(postLogsToStatusHero);
 
 async function postLogsToStatusHero(logs) {
   const browser = await puppeteer.launch({ headless: false });
