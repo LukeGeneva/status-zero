@@ -8,5 +8,6 @@ globals:
   SharedArrayBuffer: readonly
 parserOptions:
   ecmaVersion: 2018
-plugins: jest
+plugins:
+  - jest
 rules: {}
