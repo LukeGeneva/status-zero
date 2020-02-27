@@ -8,7 +8,7 @@ dotenv.config();
 const yesterday = moment().subtract(1, 'day');
 const after = yesterday.format('YYYY-MM-DD');
 const before = yesterday.format('YYYY-MM-DD 23:59:59');
-const command = `cd ~/dotfiles && git log --after='${after}' --before='${before}' --format='%s%n%b' --author='${process.env.GIT_AUTHOR}'`;
+const command = `cd ~/dotfiles && git log --all --after='${after}' --before='${before}' --format='%s%n%b' --author='${process.env.GIT_AUTHOR}'`;
 
 exec(command, {}, onGitLogComplete);
 
