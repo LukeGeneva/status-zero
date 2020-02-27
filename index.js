@@ -1,23 +1,19 @@
 const moment = require('moment');
-const { exec } = require('child_process');
 const puppeteer = require('puppeteer');
 const jsyaml = require('js-yaml');
 const path = require('path');
 const fs = require('fs');
 const { getPreviousWorkday } = require('./calendar');
+const fetchAllGitLogs = require('./fetchAllGitLogs');
 
 const configPath = path.join(__dirname, 'config.yaml');
 const configDoc = fs.readFileSync(configPath);
 const config = jsyaml.safeLoad(configDoc);
 
-const previousWorkday = moment(getPreviousWorkday(new Date()));
-const after = previousWorkday.format('YYYY-MM-DD');
-const before = previousWorkday.format('YYYY-MM-DD 23:59:59');
-const command = `cd ~/dotfiles && git log --all --after='${after}' --before='${before}' --format='%s%n%b' --author='${config.gitAuthor}'`;
+const previousWorkday = getPreviousWorkday(new Date());
+fetchAllGitLogs({ day: previousWorkday, author: config.gitAuthor }).then(postLogsToStatusHero);
 
-exec(command, {}, onGitLogComplete);
-
-async function onGitLogComplete(error, stdout) {
+async function postLogsToStatusHero(logs) {
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.goto('https://statushero.com/signin');
@@ -28,7 +24,7 @@ async function onGitLogComplete(error, stdout) {
   await page.click('button[type="submit"]');
   await page.goto('https://statushero.com/teams/finance/statuses/current/edit');
   await page.focus('#answer_set_previous');
-  await page.keyboard.type(stdout);
+  await page.keyboard.type(logs);
   await page.click('#answer_set_previous_completed');
   // TODO: click submit button
 }
