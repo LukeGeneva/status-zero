@@ -1,4 +1,3 @@
-const moment = require('moment');
 const puppeteer = require('puppeteer');
 const jsyaml = require('js-yaml');
 const path = require('path');
@@ -14,6 +13,7 @@ const previousWorkday = getPreviousWorkday(new Date());
 fetchAllGitLogs({ day: previousWorkday, author: config.gitAuthor, directories: config.gitDirectories }).then(postLogsToStatusHero);
 
 async function postLogsToStatusHero(logs) {
+  /*eslint-env browser*/
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.goto('https://statushero.com/signin');
@@ -23,6 +23,7 @@ async function postLogsToStatusHero(logs) {
   await page.keyboard.type(config.statusHeroPassword);
   await page.click('button[type="submit"]');
   await page.goto('https://statushero.com/teams/finance/statuses/current/edit');
+  await page.evaluate(() => (document.getElementById('answer_set_previous').value = ''));
   await page.focus('#answer_set_previous');
   await page.keyboard.type(logs);
   await page.click('#answer_set_previous_completed');
