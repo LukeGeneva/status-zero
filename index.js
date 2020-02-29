@@ -9,6 +9,7 @@ const configPath = path.join(__dirname, 'config.yaml');
 const configDoc = fs.readFileSync(configPath);
 const config = jsyaml.safeLoad(configDoc);
 
+// TODO: Change to work span so that we can cover the weekend
 const previousWorkday = getPreviousWorkday(new Date());
 fetchAllGitLogs({ day: previousWorkday, author: config.gitAuthor, directories: config.gitDirectories }).then(postLogsToStatusHero);
 
@@ -23,9 +24,11 @@ async function postLogsToStatusHero(logs) {
   await page.keyboard.type(config.statusHeroPassword);
   await page.click('button[type="submit"]');
   await page.goto('https://statushero.com/teams/finance/statuses/current/edit');
-  await page.evaluate(() => (document.getElementById('answer_set_previous').value = ''));
+  await page.evaluate(() => {
+    document.getElementById('answer_set_previous').value = '';
+    document.getElementById('answer_set_previous_completed').checked = true;
+  });
   await page.focus('#answer_set_previous');
   await page.keyboard.type(logs);
-  await page.click('#answer_set_previous_completed');
   // TODO: click submit button
 }
