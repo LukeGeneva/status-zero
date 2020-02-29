@@ -15,7 +15,7 @@ fetchAllGitLogs({ day: previousWorkday, author: config.gitAuthor, directories: c
 
 async function postLogsToStatusHero(logs) {
   /*eslint-env browser*/
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: config.willRunHeadless });
   const page = await browser.newPage();
   await page.goto('https://statushero.com/signin');
   await page.focus('#user_email');
@@ -30,5 +30,5 @@ async function postLogsToStatusHero(logs) {
   });
   await page.focus('#answer_set_previous');
   await page.keyboard.type(logs);
-  // TODO: click submit button
+  if (config.willSubmit) await page.click('button[type="submit"]');
 }

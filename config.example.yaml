@@ -1,6 +1,8 @@
-statusHeroUsername: ''
-statusHeroPassword: ''
-gitAuthor: ''
+statusHeroUsername: 'my-username'
+statusHeroPassword: 'my-password'
+gitAuthor: 'My author name from .gitconfig'
 gitDirectories:
-  -
-  -
+  - ~/path/to/your/project
+  - ~/path/to/another/project
+willSubmit: false
+willRunHeadless: false
