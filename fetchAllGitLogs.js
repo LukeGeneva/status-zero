@@ -7,7 +7,7 @@ function fetchAllGitLogs({ day, author, directories }) {
   const before = workday.format('YYYY-MM-DD 23:59:59');
   // TODO: Use double quotes for args to handle names with apostrophes
   const promises = directories.map(dir => {
-    const command = `cd ${dir} && git log --all --after='${after}' --before='${before}' --format='%s%n%b' --author='${author}'`;
+    const command = `cd ${dir} && git log --all --after="${after}" --before="${before}" --format="%s%n%b" --author="${author}"`;
     return new Promise((resolve, reject) => exec(command, {}, (error, stdout) => (error ? reject(error) : resolve(stdout))));
   });
   return new Promise((resolve, reject) => {
