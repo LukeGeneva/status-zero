@@ -15,7 +15,9 @@ fetchAllGitLogs({
   day: previousWorkday,
   author: config.gitAuthor,
   directories: config.gitDirectories,
-}).then(postLogsToStatusHero);
+})
+  .then(postLogsToStatusHero)
+  .then(() => process.exit());
 
 async function postLogsToStatusHero(logs) {
   /*eslint-env browser*/
