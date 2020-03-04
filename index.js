@@ -11,7 +11,11 @@ const config = jsyaml.safeLoad(configDoc);
 
 // TODO: Change to work span so that we can cover the weekend
 const previousWorkday = getPreviousWorkday(new Date());
-fetchAllGitLogs({ day: previousWorkday, author: config.gitAuthor, directories: config.gitDirectories }).then(postLogsToStatusHero);
+fetchAllGitLogs({
+  day: previousWorkday,
+  author: config.gitAuthor,
+  directories: config.gitDirectories,
+}).then(postLogsToStatusHero);
 
 async function postLogsToStatusHero(logs) {
   /*eslint-env browser*/
@@ -30,5 +34,5 @@ async function postLogsToStatusHero(logs) {
   });
   await page.focus('#answer_set_previous');
   await page.keyboard.type(logs);
-  if (config.willSubmit) await page.click('button[type="submit"]');
+  if (config.willSubmit) await page.click('.btn-success');
 }
