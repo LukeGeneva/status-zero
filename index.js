@@ -32,9 +32,9 @@ async function postLogsToStatusHero(logs) {
   await page.goto('https://statushero.com/teams/finance/statuses/current/edit');
   await page.evaluate(() => {
     document.getElementById('answer_set_previous').value = '';
-    document.getElementById('answer_set_previous_completed').checked = true;
   });
   await page.focus('#answer_set_previous');
   await page.keyboard.type(logs);
+  await page.click('#answer_set_previous_completed');
   if (config.willSubmit) await page.click('.btn-success');
 }
